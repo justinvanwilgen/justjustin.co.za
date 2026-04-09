@@ -239,6 +239,15 @@ a { color: inherit; }
   margin-bottom: 0.5rem;
 }
 
+.project-card-header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card-header a:hover .project-name {
+  color: var(--accent);
+}
+
 .project-arrow        { color: var(--accent); font-size: 0.65rem; }
 .project-arrow.dim    { color: var(--border); }
 .project-name         { font-size: 0.9rem; font-weight: 700; }
@@ -249,6 +258,11 @@ a { color: inherit; }
   color: var(--accent);
   border: 1px solid var(--border);
   padding: 0.05rem 0.4rem;
+}
+
+.project-badge--progress {
+  color: var(--ink-faint);
+  border-color: var(--ink-faint);
 }
 
 .project-desc {
@@ -263,6 +277,94 @@ a { color: inherit; }
   color: var(--ink-faint);
   border: 1px solid var(--border-faint);
   padding: 0.08rem 0.45rem;
+}
+
+/* =========================================
+   Experience
+   ========================================= */
+.experience-card {
+  border: 1px solid var(--border-faint);
+  background: var(--bg-raised);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.experience-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--border-faint);
+}
+
+.experience-company {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.experience-duration {
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.experience-role {
+  padding: 0.75rem 0;
+}
+
+.experience-role:not(:last-child) {
+  border-bottom: 1px dashed var(--border-faint);
+  margin-bottom: 0.75rem;
+}
+
+.role-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.role-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.role-type {
+  font-size: 0.7rem;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  padding: 0.05rem 0.4rem;
+  white-space: nowrap;
+}
+
+.role-period {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.25rem;
+}
+
+.role-location {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.5rem;
+}
+
+.role-desc {
+  font-size: 0.825rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.75rem;
+  max-width: 62ch;
+}
+
+.role-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 /* =========================================
@@ -348,4 +450,16 @@ a { color: inherit; }
   .sh-rule      { display: none; }
   .ci-value     { display: none; }
   .skills-grid  { grid-template-columns: 1fr; }
+  
+  .experience-header,
+  .role-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .experience-duration,
+  .role-type {
+    align-self: flex-start;
+  }
 }

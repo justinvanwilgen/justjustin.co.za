@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Build output
+dist/
+
+# Minified files in root (if any)
+*.min.js
+*.min.css
+
+# OS files
+.DS_Store
+Thumbs.db
+.env

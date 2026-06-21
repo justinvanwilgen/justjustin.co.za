@@ -7,6 +7,32 @@ $(function () {
 
 
   /* ─────────────────────────────────────────
+     Dynamic experience durations
+     Computes "X yrs Y mos" from a data-since
+     start date (YYYY-MM) up to the current
+     month.
+  ───────────────────────────────────────── */
+  $('[data-since]').each(function () {
+    var parts = $(this).data('since').toString().split('-');
+    var start = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
+    var now   = new Date();
+
+    var months = (now.getFullYear() - start.getFullYear()) * 12 +
+                 (now.getMonth() - start.getMonth());
+    if (months < 0) { months = 0; }
+
+    var years = Math.floor(months / 12);
+    var mos   = months % 12;
+
+    var out = [];
+    if (years > 0) { out.push(years + ' yr' + (years === 1 ? '' : 's')); }
+    out.push(mos + ' mo' + (mos === 1 ? '' : 's'));
+
+    $(this).text(out.join(' '));
+  });
+
+
+  /* ─────────────────────────────────────────
      Typewriter animation
      Cycles through phrases with a blinking
      cursor, typing then deleting each one.

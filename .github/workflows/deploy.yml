@@ -1,0 +1,71 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Verify build output
+        run: |
+          set -e
+
+          # Required files exist
+          test -f dist/index.html || { echo "FAIL: dist/index.html missing"; exit 1; }
+          test -d dist/assets     || { echo "FAIL: dist/assets missing"; exit 1; }
+
+          # Exactly one hashed file per source
+          MAIN_JS_COUNT=$(find dist/js -maxdepth 1 -name 'main.min.*.js' | wc -l)
+          ICONS_JS_COUNT=$(find dist/js -maxdepth 1 -name 'tech-icons.min.*.js' | wc -l)
+          STYLE_CSS_COUNT=$(find dist/css -maxdepth 1 -name 'style.min.*.css' | wc -l)
+          ICONS_CSS_COUNT=$(find dist/css -maxdepth 1 -name 'tech-icons.min.*.css' | wc -l)
+          [ "$MAIN_JS_COUNT" -eq 1 ]   || { echo "FAIL: expected 1 hashed main JS file, found $MAIN_JS_COUNT"; exit 1; }
+          [ "$ICONS_JS_COUNT" -eq 1 ]  || { echo "FAIL: expected 1 hashed tech-icons JS file, found $ICONS_JS_COUNT"; exit 1; }
+          [ "$STYLE_CSS_COUNT" -eq 1 ] || { echo "FAIL: expected 1 hashed style CSS file, found $STYLE_CSS_COUNT"; exit 1; }
+          [ "$ICONS_CSS_COUNT" -eq 1 ] || { echo "FAIL: expected 1 hashed tech-icons CSS file, found $ICONS_CSS_COUNT"; exit 1; }
+
+          # Filenames referenced in index.html match files on disk
+          MAIN_JS_FILE=$(find dist/js -maxdepth 1 -name 'main.min.*.js' -printf '%f\n')
+          ICONS_JS_FILE=$(find dist/js -maxdepth 1 -name 'tech-icons.min.*.js' -printf '%f\n')
+          STYLE_CSS_FILE=$(find dist/css -maxdepth 1 -name 'style.min.*.css' -printf '%f\n')
+          ICONS_CSS_FILE=$(find dist/css -maxdepth 1 -name 'tech-icons.min.*.css' -printf '%f\n')
+          grep -q "$MAIN_JS_FILE"   dist/index.html || { echo "FAIL: index.html does not reference $MAIN_JS_FILE"; exit 1; }
+          grep -q "$ICONS_JS_FILE"  dist/index.html || { echo "FAIL: index.html does not reference $ICONS_JS_FILE"; exit 1; }
+          grep -q "$STYLE_CSS_FILE" dist/index.html || { echo "FAIL: index.html does not reference $STYLE_CSS_FILE"; exit 1; }
+          grep -q "$ICONS_CSS_FILE" dist/index.html || { echo "FAIL: index.html does not reference $ICONS_CSS_FILE"; exit 1; }
+
+          echo "Smoke test passed"
+
+      - name: Deploy via FTP
+        env:
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+        run: |
+          lftp -c "set ssl:verify-certificate no; open -u $FTP_USER,$FTP_PASSWORD $FTP_HOST; mirror -R --delete --exclude-glob .ftpquota dist/ ./"

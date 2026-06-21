@@ -32,7 +32,7 @@ cleancss -o "dist/css/style.min.$CSS_HASH.css" css/style.css
 cleancss -o "dist/css/tech-icons.min.$ICONS_CSS_HASH.css" css/tech-icons.css
 
 # Update HTML with hashed filenames
-sed "s|css/style.css|css/style.min.$CSS_HASH.css|g; s|css/tech-icons.css|css/tech-icons.min.$ICONS_CSS_HASH.css|g; s|js/main.js|js/main.min.$JS_HASH.js|g; s|js/tech-icons.js|js/tech-icons.min.$ICONS_JS_HASH.js|g" index.html > dist/index.html
+sed "s|css/style.css|css/style.min.$CSS_HASH.css|g; s|css/tech-icons.css|css/tech-icons.min.$ICONS_CSS_HASH.css|g; s|js/main.js|js/main.min.$JS_HASH.js|g; s|js/tech-icons.js|js/tech-icons.min.$ICONS_JS_HASH.js|g; s|<base href=\"/\">|<base href=\"/frontpage/\">|g" index.html > dist/index.html
 
 echo "Build complete!"
 echo "  dist/js/main.min.$JS_HASH.js"

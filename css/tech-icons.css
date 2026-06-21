@@ -1,0 +1,42 @@
+/* =========================================
+   Technology icons
+   -----------------------------------------
+   Styling for the brand icons injected by
+   js/tech-icons.js next to technology labels
+   in the experience tags and skills list.
+   ========================================= */
+
+.tech-icon {
+  height: 0.95em;
+  width: auto;
+  max-width: 2.4em;
+  flex: 0 0 auto;
+  vertical-align: -0.15em;
+  margin-right: 0.4em;
+  opacity: 0.85;
+  filter: grayscale(0.15);
+  transition: opacity 0.18s ease, filter 0.18s ease;
+}
+
+/* Tags lay out inline-flex so icon + text stay aligned. */
+.tag.has-tech-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag.has-tech-icon .tech-icon {
+  margin-right: 0.35em;
+}
+
+/* Skill list items keep their dash bullet; the
+   icon sits between the bullet and the label.   */
+.skill-group ul li.has-tech-icon {
+  display: flex;
+  align-items: center;
+}
+
+.tag.has-tech-icon:hover .tech-icon,
+.skill-group ul li.has-tech-icon:hover .tech-icon {
+  opacity: 1;
+  filter: grayscale(0);
+}

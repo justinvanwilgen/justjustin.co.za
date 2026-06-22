@@ -24,6 +24,7 @@
     'javascript':      ['javascript.svg'],
     'python':          ['python.svg'],
     'c#':              ['csharp.svg'],
+    'vb.net':          ['dotnet.svg'],
     'java':            ['java.svg'],
     'html & css':      ['html5.svg', 'css3.svg'],
     'html/css':        ['html5.svg', 'css3.svg'],

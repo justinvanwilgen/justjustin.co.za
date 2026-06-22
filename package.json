@@ -4,9 +4,12 @@
   "description": "justjustin.co.za - developer homepage",
   "scripts": {
     "build": "bash build.sh",
+    "test": "pnpm run build && playwright test",
+    "test:browser": "playwright test",
     "deploy": "dotenv -e .env -- bash -c 'pnpm build && lftp -c \"set ssl:verify-certificate no; open -u $FTP_USER,$FTP_PASSWORD $FTP_HOST; mirror -R dist/ ./\"'"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
     "clean-css": "^5.3.3",
     "clean-css-cli": "^5.6.3",
     "terser": "^5.31.0"

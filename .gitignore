@@ -4,6 +4,8 @@ pnpm-lock.yaml
 
 # Build output
 dist/
+test-results/
+playwright-report/
 
 # Minified files in root (if any)
 *.min.js

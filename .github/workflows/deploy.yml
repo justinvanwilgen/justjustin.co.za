@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Install lftp
         run: sudo apt-get install -y lftp
 
@@ -61,6 +64,9 @@ jobs:
           grep -q "$ICONS_CSS_FILE" dist/index.html || { echo "FAIL: index.html does not reference $ICONS_CSS_FILE"; exit 1; }
 
           echo "Smoke test passed"
+
+      - name: Browser smoke test
+        run: pnpm run test:browser
 
       - name: Deploy via FTP
         env:

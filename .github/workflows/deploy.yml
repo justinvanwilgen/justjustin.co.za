@@ -24,7 +24,10 @@ jobs:
           version: latest
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Security audit
+        run: pnpm audit --audit-level high
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium

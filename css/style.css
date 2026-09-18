@@ -265,6 +265,11 @@ a { color: inherit; }
   border-color: var(--ink-faint);
 }
 
+.project-badge--live {
+  color: #2f7d32;
+  border-color: #2f7d32;
+}
+
 .project-desc {
   font-size: 0.825rem;
   color: var(--ink-faint);

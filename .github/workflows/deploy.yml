@@ -77,4 +77,4 @@ jobs:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           FTP_HOST: ${{ secrets.FTP_HOST }}
         run: |
-          lftp -c "set ssl:verify-certificate no; open -u $FTP_USER,$FTP_PASSWORD $FTP_HOST; mirror -R --delete --exclude-glob .ftpquota dist/ ./"
+          lftp -c "set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate no; open -u $FTP_USER,$FTP_PASSWORD $FTP_HOST; mirror -R --delete --exclude-glob .ftpquota dist/ ./"

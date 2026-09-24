@@ -6,7 +6,7 @@
     "build": "bash build.sh",
     "test": "pnpm run build && playwright test",
     "test:browser": "playwright test",
-    "deploy": "dotenv -e .env -- bash -c 'pnpm build && lftp -c \"set ssl:verify-certificate no; open -u $FTP_USER,$FTP_PASSWORD $FTP_HOST; mirror -R dist/ ./\"'"
+    "deploy": "dotenv -e .env -- bash -c 'pnpm build && lftp -c \"set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate no; open -u $FTP_USER,$FTP_PASSWORD $FTP_HOST; mirror -R dist/ ./\"'"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
